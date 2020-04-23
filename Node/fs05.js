@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-// 追加文件
+// 读取文件
 /*
  * filename   string        文件名称
  * callback      回调函数， 参数为 (err, data)
