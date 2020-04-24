@@ -3,7 +3,7 @@ const url = require('url');
 
 http.createServer(function (request, response) {
 
-  response.writeHead(200, {'Content-Type': 'text/html, charset="utf-8"'});
+  response.writeHead(200, {'Content-Type': 'text/html; charset="utf-8"'});
 
   response.write("<head><meta charset='utf-8' /></head>");
   response.write("Hello world");
