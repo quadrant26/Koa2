@@ -1,5 +1,8 @@
 const http = require('http');
 const fs = require('fs');
+const path = require('path');
+const url = require('url');
+const common = require('./module/common');
 
 http.createServer(function (request, response) {
 
@@ -7,20 +10,22 @@ http.createServer(function (request, response) {
     // http://127.0.0.1:3000/index.html
 
     // 1. 获取地址
-    let pathname = request.url;
-    console.log(pathname);
+    let pathname = url.parse(request.url).pathname;
+    pathname = pathname == "/" ? "/index.html" : pathname;
+
+    let extname = path.extname(pathname);
 
     // 2. 通过 fs 获取文件
     if ( pathname != "/favicon.ico"){
-        
         fs.readFile('./static' + pathname, (err, data) => {
             if( err ){
                 response.writeHead(404, {"Content-type":"text/html;charset='utf-8'"});
-                response.write("<head><mate charset='utf-8' /></head>")
+                response.write("<head><meta charset='utf-8'/></head>")
                 response.end("404这个页面不存在");
             }
 
-            response.writeHead(200, {"Content-type":"text/html;charset='utf-8'"})
+            let mime = common.getMime(extname);
+            response.writeHead(200, {"Content-type":`${mime};charset='utf-8'`})
             response.end(data);
         })
     }
