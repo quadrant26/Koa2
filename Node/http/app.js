@@ -15,11 +15,12 @@ http.createServer(function (request, response) {
         
         fs.readFile('./static' + pathname, (err, data) => {
             if( err ){
-                response.writeHead(404, {"Content-type": "text/html;charset='utf-8'"});
-                response.end("这个页面不存在");
+                response.writeHead(404, {"Content-type":"text/html;charset='utf-8'"});
+                response.write("<head><mate charset='utf-8' /></head>")
+                response.end("404这个页面不存在");
             }
 
-            response.writeHead(200, {"Content-type": "text/html;charset='utf-8'"})
+            response.writeHead(200, {"Content-type":"text/html;charset='utf-8'"})
             response.end(data);
         })
     }
