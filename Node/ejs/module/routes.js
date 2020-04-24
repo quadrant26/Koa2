@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const ejs = require('ejs')
 
 // 私有方法
 let getFileMimeSync = function (extname){
@@ -45,3 +46,41 @@ exports.static = function (request, response, staticPath){
         })*/
     }
 }
+
+
+let App = {
+    static: (req, res, staticPath) => {
+        let pathname = url.parse(req.url).pathname;
+        pathname = pathname == "/" ? '/index.html' : pathname;
+        let extname = path.extname(pathname);
+
+        if( pathname != '/favicon.ico'){
+            try{
+                let data = fs.readFileSync('./' + staticPath + pathname);
+                if ( data ){
+                    let mime = getFileMimeSync(extname);
+                    res.writeHead(200, {"Content-type": `${mime}; charset="utf-8"`});
+                    res.end(data);
+                }
+            } catch(e){
+                console.log(e);
+            }
+        }
+    },
+    login: (req, res) => {
+        // res.end("Login");
+        console.log(req);
+        ejs.renderFile('./views/form.ejs', {}, (err, data) => {
+            res.writeHead(200, {"Content-type": "text/html; charset='utf-8'"});
+            res.end(data);
+        })
+    },
+    reg: (req, res) => {
+        res.end("reg");
+    },
+    doLogin: (req, res) => {
+        res.end("doLogin")
+    }
+}
+
+module.exports = App;
