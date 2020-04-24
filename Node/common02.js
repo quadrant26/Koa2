@@ -5,7 +5,7 @@ console.log(request)
 
 http.createServer( (req, res) => {
 
-    res.writeHead(200, {"Content-type" : "text/html, charset='utf-8'"});
+    res.writeHead(200, {"Content-type" : "text/html; charset='utf-8'"});
 
     res.write("<head><meta charset='utf-8' /></head>");
 
