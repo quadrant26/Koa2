@@ -1,6 +1,7 @@
 const http = require('http');
 const routes = require('./module/routes');
 const url = require('url');
+const ejs = require('ejs')
 
 http.createServer(function (request, response) {
 
@@ -11,8 +12,23 @@ http.createServer(function (request, response) {
     let pathName = url.parse(request.url).pathname;
 
     if( pathName == '/login'){
-        response.writeHead(200, {"Content-type":`text/html;charset='utf-8'`})
-        response.end("Login");
+
+        let msg = '数据库获取的数据';
+        let list = [
+            {title: "新闻111"},
+            {title: "新闻222"},
+            {title: "新闻333"},
+            {title: "新闻444"},
+            {title: "新闻555"}
+        ]
+        ejs.renderFile('./views/login.ejs', {
+            msg: msg,
+            list: list
+        }, (err, data) => {
+            response.writeHead(200, {"Content-type":`text/html;charset='utf-8'`})
+            response.end(data);
+        })
+        
     } else if (pathName == '/reg'){
         response.writeHead(200, {"Content-type":`text/html;charset='utf-8'`})
         response.end("reg");

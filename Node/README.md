@@ -109,3 +109,29 @@
         var writeSteam = fs.createWriteStream("./bbb.jpg");
         readStream.pipe(writeSteam);
     ```
+
+## ejs 模版引擎
+
+    ```ejs
+
+        npm install ejs
+
+        // use
+        const ejs = require('ejs')
+        ejs.renderFile('./views/login.ejs', {
+            msg: msg,
+            list: list
+        }, (err, data) => {
+            response.writeHead(200, {"Content-type":`text/html;charset='utf-8'`})
+            response.end(data);
+        })
+
+        // template
+        <h3><%= msg %></h3>
+
+        <ul>
+            <% for(var i=0; i < list.length; i++ ){%>
+            <li><%= list[i].title %></li>
+            <%}%>
+        </ul>
+    ```
