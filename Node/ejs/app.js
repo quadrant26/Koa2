@@ -11,6 +11,9 @@ http.createServer(function (request, response) {
     // 路由
     let pathName = url.parse(request.url).pathname;
 
+    // 获取请求的类型
+    console.log(request.method);
+
     if( pathName == '/login'){
 
         let msg = '数据库获取的数据';
@@ -29,6 +32,43 @@ http.createServer(function (request, response) {
             response.end(data);
         })
         
+    }else if ( pathName == '/news'){
+        // 获取get 传值
+        var query = url.parse(request.url, true).query;
+        console.log(query)
+
+        response.writeHead(200, {"Content-type":"text/html;charset='utf-8'"})
+        response.end("get传值成功")
+
+    } else if ( pathName == '/form'){
+        ejs.renderFile('./views/form.ejs', {}, (err, data) => {
+            if( err){
+                console.log(err);
+                return;
+            }
+
+            response.writeHead(200, {"Content-type": "text/html; charset='utf-8'"});
+            response.end(data);
+        })
+    }else if ( pathName == '/doLogin'){
+        ejs.renderFile('./views/form.ejs', {}, (err, data) => {
+            if( err){
+                console.log(err);
+                return;
+            }
+
+            // 获取 post 传值
+            var postData = "";
+            request.on("data", function (chunkdata){
+                postData += chunkdata;
+            })
+            request.on("end", function (){
+                console.log(postData)
+            })
+
+            response.writeHead(200, {"Content-type": "text/html; charset='utf-8'"});
+            response.end("post ok");
+        })
     } else if (pathName == '/reg'){
         response.writeHead(200, {"Content-type":`text/html;charset='utf-8'`})
         response.end("reg");

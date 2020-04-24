@@ -135,3 +135,24 @@
             <%}%>
         </ul>
     ```
+
+## GET POST 传值
+
+    ```
+        // 获取请求的类型
+        console.log(request.method);
+
+        
+        // GET
+        var query = url.parse(request.url, true).query;
+        console.log(query)
+
+        // 获取 post 传值
+        var postData = "";
+        request.on("data", function (chunkdata){
+            postData += chunkdata;
+        })
+        request.on("end", function (){
+            console.log(postData)
+        })
+    ```
