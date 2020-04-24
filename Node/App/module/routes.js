@@ -1,5 +1,14 @@
 const url = require('url');
 
+function changeRes (res){
+    res.send = (data) => {
+        res.writeHead(200, {"Content-type": "text/html; charset='utf-8'"});
+        res.write("<head><meta charset='utf-8' /></head>")
+        res.end(data);
+    }
+}
+
+
 let server = () => {
     let G = {};
     // 分割 get 和 post 请求
@@ -7,6 +16,8 @@ let server = () => {
     G._post = {};
 
     let app = function (req, res){
+        // 扩展res方法
+        changeRes(res);
 
         let pathname = url.parse(req.url).pathname;
         // 获取请求类型
