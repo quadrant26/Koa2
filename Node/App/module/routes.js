@@ -1,4 +1,6 @@
 const url = require('url');
+const fs = require('fs');
+const path = require('path');
 
 function changeRes (res){
     res.send = (data) => {
@@ -8,16 +10,45 @@ function changeRes (res){
     }
 }
 
+let getFileMime = function (extname){
+    var data = fs.readFileSync("./module/mime.json");
+    let mimeObj = JSON.parse(data.toString());
+    return mimeObj[extname];
+}
+
+let initStatic = function (req, res, staticPath){
+    let pathname = url.parse(req.url).pathname;
+    pathname = pathname == "/" ? "/index" : pathname;
+    let extname = path.extname(pathname);
+
+    if ( pathname != "/favicon.ico"){
+        try{
+            let data = fs.readFileSync('./'+staticPath + pathname);
+            if(data){
+                let mime = getFileMime(extname);
+                res.writeHead(200, {"Content-type" : `${mime}; charset="utf-8"`});
+                res.end(data);
+            }
+        }catch(e){
+
+        }
+    }
+}
+
 
 let server = () => {
-    let G = {};
+    let G = {
+        _get: {},
+        _post: {},
+        staticPath: 'static'
+    };
     // 分割 get 和 post 请求
-    G._get = {};
-    G._post = {};
 
     let app = function (req, res){
         // 扩展res方法
         changeRes(res);
+        // 配置静态web服务
+        initStatic(req, res, G.staticPath);
 
         let pathname = url.parse(req.url).pathname;
         // 获取请求类型
@@ -51,6 +82,11 @@ let server = () => {
 
     app.post = function (str, cb){
         G._post[str] = cb
+    }
+
+    // 配置静态web目录
+    app.static = function (staticPath){
+        G.staticPath = staticPath;
     }
 
     return app;
