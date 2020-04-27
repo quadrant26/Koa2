@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>绑定数据</h2>
+
+    <p>{{list.name}}</p>
+
+    <p><%- list.h %></p>
+    <p>{{list.h}}</p>
+
+    {{if list.num > 2}}
+    <p>大于</p>
+    {{else}}
+    <p>小于</p>
+    {{/if}}
+
+    <ul>
+        {{each list.arr}}
+        <li>{{$index}} -- {{$value}}</li>
+        {{/each}}
+    </ul>
+
+
+    {{include './public/footer.html'}}
+    <% include('./public/footer.html') %>
+</body>
+</html>
