@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    这是ejs模板引擎
+
+    <% include("./public/header.ejs") %>
+
+    <h1><%=title%></h1>
+
+    <h6>配置了公共信息 <%=userinfo%></h6>
+
+    <p>绑定元素</p>
+    <%= content %>
+    <%- content %>
+
+    <p>条件渲染</p>
+    <% if(num > 12) {%>
+        d大于
+    <%}else{%>
+        小于
+    <%}%>
+
+
+</body>
+</html>
