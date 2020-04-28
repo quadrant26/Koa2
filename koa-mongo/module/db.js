@@ -7,24 +7,41 @@ var Config = require('./config');
 // 封装类库
 class Db {
 
+    // 单例模式
+    // 多次实例化实例不共享的问题
+    static getInstance (){
+        if( !Db.instance){
+            Db.instance = new Db();
+        }
+        return Db.instance;
+    }
+
     constructor (){
+
+        this.dbclient = ""; // 存放 db 对象
         // ! 初始化的时候连接数据库
-        this.connect();
+        // this.connect();
     }
 
     connect (){
+
+        var _that = this;
         // ? 连接数据库
         return new Promise( (resolve, reject) => {
-            MongoClient.connect(Config.dbUrl, (err, client) =>{
-                if( err ){
-                    reject(err);
-                }else{
-                    var db = client.db(Config.dbname);
-                    resolve(db);
-                }
-            })
+            // 判断 db 是否连接
+            if( !_that.dbclient){ // 解决数据库多次连接的问题
+                MongoClient.connect(Config.dbUrl, (err, client) =>{
+                    if( err ){
+                        reject(err);
+                    }else{
+                        _that.dbclient = client.db(Config.dbname);
+                        resolve(_that.dbclient);
+                    }
+                })
+            }else{
+                resolve(_that.dbclient);
+            }
         })
-        
     }
 
     find (collectionName, json){
@@ -53,10 +70,4 @@ class Db {
     }
 }
 
-var myDB = new Db();
-
-console.time("start")
-myDB.find('user', {}).then( (data) => {
-    console.log(data)
-    console.timeEnd("start")
-})
+module.exports = Db.getInstance();
