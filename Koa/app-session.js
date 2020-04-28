@@ -33,6 +33,13 @@ router.get("/login", async (ctx) => {
     ctx.body = "登录成功";
 })
 
+router.get("/news", async (ctx) => {
+    // 设置 session
+    // 获取 session
+    let userinfo = ctx.session.userinfo
+    ctx.body = "这是新闻" + userinfo;
+})
+
 app
     .use(router.routes())
     .use(router.allowedMethods());
