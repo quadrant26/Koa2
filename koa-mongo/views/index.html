@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table, td{
+            border-collapse:collapse;  
+            border: 1px solid #333;  
+        }
+
+        td{ width: 150px; text-align: center;}
+    </style>
+</head>
+<body>
+
+    <a href="/add">增加用户</a>
+
+    <h2>循环数据库内容</h2>
+    <table>
+        <thead>
+            <tr>
+                <td>姓名</td>
+                <td>年龄</td>
+                <td>操作</td>
+            </tr>
+        </thead>
+        <tbody>
+            {{each list}}
+            <tr>
+                <td>{{$value.name}}</td>
+                <td>{{$value.age}}</td>
+                <td><a href="/edit?id={{@$value._id}}">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/delete?id={{@$value._id}}">删除</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</body>
+</html>
