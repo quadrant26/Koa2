@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>修改</h2>
+    <form action="/editUser" method="POST">
+        <input type="hidden" value="{{@list._id}}" name="id"><br />
+        <label for="username">用户名：<input type="text" value="{{list.name}}" name="name"></label><br /><br />
+        <label for="text">年&nbsp;&nbsp;&nbsp;&nbsp;龄：<input type="text" value="{{list.age}}" name="age"></label><br /><br />
+        <label for=""><input type="submit" value="提交"></label>
+    </form>
+</body>
+</html>

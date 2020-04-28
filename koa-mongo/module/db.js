@@ -1,7 +1,7 @@
 // ! DB
-
-var MongoClient = require('mongodb').MongoClient;
-
+var mongodb = require('mongodb');
+var MongoClient = mongodb.MongoClient;
+const ObjectId = mongodb.ObjectID;
 var Config = require('./config');
 
 // 封装类库
@@ -29,7 +29,7 @@ class Db {
         return new Promise( (resolve, reject) => {
             // 判断 db 是否连接
             if( !_that.dbclient){ // 解决数据库多次连接的问题
-                MongoClient.connect(Config.dbUrl, (err, client) =>{
+                MongoClient.connect(Config.dbUrl, {useUnifiedTopology:true}, (err, client) =>{
                     if( err ){
                         reject(err);
                     }else{
@@ -40,6 +40,8 @@ class Db {
             }else{
                 resolve(_that.dbclient);
             }
+        }).catch((error) => {
+            console.error(error);
         })
     }
 
@@ -57,6 +59,8 @@ class Db {
                     }
                 })
             })
+        }).catch((error) => {
+            console.error(error);
         })
     }
 
@@ -72,6 +76,8 @@ class Db {
                     resolve(result);
                 })
             })
+        }).catch((error) => {
+            console.error(error);
         })
     }
 
@@ -85,6 +91,8 @@ class Db {
                     resolve(result);
                 })
             })
+        }).catch((error) => {
+            console.error(error);
         })
     }
 
@@ -99,7 +107,13 @@ class Db {
                     resolve(result);
                 })
             })
+        }).catch((error) => {
+            console.error(error);
         })
+    }
+
+    getObjectId(id) { /** mongodb 把字符串转换为 对象 */
+        return new ObjectId(id);
     }
 }
 
