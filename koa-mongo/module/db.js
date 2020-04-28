@@ -24,7 +24,6 @@ class Db {
     }
 
     connect (){
-
         var _that = this;
         // ? 连接数据库
         return new Promise( (resolve, reject) => {
@@ -35,7 +34,7 @@ class Db {
                         reject(err);
                     }else{
                         _that.dbclient = client.db(Config.dbname);
-                        resolve(_that.dbclient);
+                        resolve(_that.dbclident);
                     }
                 })
             }else{
@@ -61,12 +60,46 @@ class Db {
         })
     }
 
-    update (){
-        
+    update (collectionName, json1, json2){
+        return new Promise ( (resolve, rejcet) => {
+            this.connect().then( db => {
+                db.collection(collectionName).updateOne(json1, {
+                    $set: json2
+                }, (err, result) => {
+                    if( err ){
+                        reject(err)
+                    }
+                    resolve(result);
+                })
+            })
+        })
     }
 
-    insert (){
+    insert(collectionName, json){
+        return new Promise ( (resolve, reject) => {
+            this.connect().then( db => {
+                db.collection(collectionName).insert(json, (err, result) => {
+                    if(err){
+                        reject(err);
+                    }
+                    resolve(result);
+                })
+            })
+        })
+    }
 
+
+    remove(collectionName, json){
+        return new Promise( (resolve, reject) => {
+            this.connect().then( db => {
+                db.collection(collectionName).removeOne( json, ( err, result) => {
+                    if(err){
+                        reject(err);
+                    }
+                    resolve(result);
+                })
+            })
+        })
     }
 }
 
