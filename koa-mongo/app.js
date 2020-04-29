@@ -8,14 +8,6 @@ const bodyParser = require('koa-bodyparser');
 const app = new Koa();
 const router = new Router();
 
-<<<<<<< HEAD
-process.on('unhandledRejection', (reason, p) => {
-    console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
-    // application specific logging, throwing an error, or other logic here
-});
-
-=======
->>>>>>> 71141a290a92307d294181635c1e4502feffed4d
 // 配置 bodyparser 中间件
 app.use(bodyParser())
 
@@ -37,14 +29,6 @@ router.get('/', async (ctx) => {
 
 // 增加成员页面
 router.get('/add', async (ctx) => {
-<<<<<<< HEAD
-=======
-
-    // ctx.body = "这是首页"
-    // var data = await DB.insert("user", {"name": "sirius", "age": 1200});
-    // console.log(data.result);
-
->>>>>>> 71141a290a92307d294181635c1e4502feffed4d
     ctx.body = "增加用户";
     await ctx.render('add');
 
